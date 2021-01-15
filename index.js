@@ -59,7 +59,7 @@ if (!MONDAY_TOKEN) {
   return;
 }
 
-monday.setToken(process.env.MONDAY_TOKEN);
+monday.setToken(MONDAY_TOKEN);
 
 // Anonymous arguments
 const aArgs = argv._;

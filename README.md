@@ -4,13 +4,22 @@ Welcome to `git-monday-cli`!
 
 This package provides a CLI with two commands that aid in development workflow using Monday, Git, and Github.
 
+It is designed to work in an existing local `git` repository that has a remote origin. It is simply a thin layer on top of [git](https://git-scm.com/) and [gh](https://github.com/cli/cli) commands that makes use of Monday's API.
+
 # Installation
 
 `npm install -g git-monday-cli`
 
+# Requirements
+
+- Monday Account with Admin Access -> https://monday.com
+- Github Account -> https://github.com
+- `git` CLI -> https://git-scm.com/download
+- `gh` CLI -> https://github.com/cli/cli#installation
+
 # Usage
 
-### _Gitmon Start_
+### _gitmon start_
 
 ```
 gitmon start {Monday Item Id} {Optional branch tag}
@@ -38,7 +47,7 @@ the CLI will create a new local branch named `bug/972602707`. This assumes that 
 
 If you set the `MONDAY_STATUS_COLUMN_ID` environment variable, it will change the status of the corresponding Monday item to "Working on it" to let your team know that you are starting work on that task/item/feature/bug.
 
-### _Gitmon PR_
+### _gitmon pr_
 
 ```
 gitmon pr
@@ -52,8 +61,6 @@ TODO: add a command line option to tag a reviewer and potentially update a colum
 
 # Setup
 
-This package will only work in an existing local `git` repository that has a remote origin. It is simply a thin layer on top of [git](https://git-scm.com/) and [gh](https://github.com/cli/cli) commands that makes use of Monday's API.
-
 In order to connect to Monday's API and grab information about an item from a board, you will need to create a `.env` file in the repository in which you plan to use the CLI.
 
 The following two variables are required:
@@ -64,7 +71,8 @@ The following two variables are required:
   ![monday-token-info](images/monday_api_token.png)
 
 - MONDAY_BOARD_ID
-  From this [support post](https://support.monday.com/hc/en-us/articles/360000225709-Where-to-find-board-item-and-column-IDs):
+
+  From [this Monday support post](https://support.monday.com/hc/en-us/articles/360000225709-Where-to-find-board-item-and-column-IDs):
   ![monday-board-id](images/monday_board_id.png)
 
 The following two variables are optional:
@@ -76,7 +84,7 @@ The following two variables are optional:
 In order to be able to see your column's ids, you need to enable developer mode. Check out [this video from Monday](https://monday.com/developers/v2#introduction-section-how-to-get-started-developer-mode) for how to do that. Once you've enabled developer mode, you should be able to click any column header and see its id like so:
 ![monday-column-id](images/monday_column_id.png)
 
-Once you've tracked down all that information your `.env` should look like this:
+Once you've tracked down all that information your `.env` file should look like this:
 
 ```
 MONDAY_TOKEN={Your Monday Token}
