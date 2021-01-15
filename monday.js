@@ -1,6 +1,6 @@
-const changeStatusString = (boardId, itemId, status) => {
+const changeStatusString = (boardId, itemId, statusColumnId, status) => {
   return `mutation {
-    change_simple_column_value (board_id: ${boardId}, item_id: ${itemId}, column_id: "status63", value: "${status}") {
+    change_simple_column_value (board_id: ${boardId}, item_id: ${itemId}, column_id: ${statusColumnId}, value: "${status}") {
     id
     }
     }`;

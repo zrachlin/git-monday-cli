@@ -2,7 +2,12 @@
 // index.js
 
 const { exec } = require('child_process');
-const { MONDAY_TOKEN, MONDAY_BOARD_ID } = require('./config');
+const {
+  MONDAY_TOKEN,
+  MONDAY_BOARD_ID,
+  MONDAY_STATUS_COLUMN_ID,
+  MONDAY_ITEM_TYPE_COLUMN_ID,
+} = require('./config');
 const args = require('minimist')(process.argv.slice(2));
 const {
   changeStatusString,
@@ -86,7 +91,7 @@ async function start(itemId, branchTag) {
   const itemInfoString = getItemInfoString(itemId);
   const { data } = await monday.api(itemInfoString);
   const { column_values } = data.items[0];
-  const tagColumn = column_values.find(el => el.id === 'tags1');
+  const tagColumn = column_values.find(el => el.id === MONDAY_STATUS_COLUMN_ID);
   let tagId;
   if (tagColumn.value) {
     tagId = JSON.parse(tagColumn.value).tag_ids[0];
@@ -113,12 +118,15 @@ async function start(itemId, branchTag) {
       console.log(stderr);
     }
   });
-  const mondayString = changeStatusString(
-    MONDAY_BOARD_ID,
-    itemId,
-    'Working on it'
-  );
-  const res = await monday.api(mondayString);
+  if (MONDAY_STATUS_COLUMN_ID) {
+    const mondayString = changeStatusString(
+      MONDAY_BOARD_ID,
+      itemId,
+      MONDAY_STATUS_COLUMN_ID,
+      'Working on it'
+    );
+    const res = await monday.api(mondayString);
+  }
 }
 
 async function pr() {
@@ -156,13 +164,15 @@ async function pr() {
           );
         }
       });
-
-      const status_string = changeStatusString(
-        MONDAY_BOARD_ID,
-        itemId,
-        'In Review'
-      );
-      const res = await monday.api(status_string);
+      if (MONDAY_STATUS_COLUMN_ID) {
+        const status_string = changeStatusString(
+          MONDAY_BOARD_ID,
+          itemId,
+          MONDAY_STATUS_COLUMN_ID,
+          'In Review'
+        );
+        const res = await monday.api(status_string);
+      }
     }
   });
 }
