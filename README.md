@@ -54,6 +54,8 @@ This package will only work in an existing local `git` repository that has a rem
 
 In order to connect to Monday's API and grab information about an item from a board, you will need to create a `.env` file in the repository in which you plan to use the CLI.
 
+Once you've tracked down all that information your `.env` should look like this:
+
 ```
 MONDAY_TOKEN={Your Monday Token}
 MONDAY_BOARD_ID={Your Sprint Board Id}
