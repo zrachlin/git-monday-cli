@@ -4,10 +4,14 @@ Welcome to `git-monday-cli`!
 
 This package provides a CLI with two commands that aid in development workflow using Monday, Git, and Github.
 
+# Installation
+
+`npm install -g git-monday-cli`
+
 ### _Gitmon Start_
 
 ```
-gitmon start {Monday Issue Id} {Optional branch tag}
+gitmon start {Monday Item Id} {Optional branch tag}
 ```
 
 `gitmon start` will create a new local git branch with a name based off the Monday item tag (or any tag column you specify), the item id (see how to find the Monday item id [here](#required-monday-item-id-column)), and an optional branch tag.
@@ -43,10 +47,6 @@ gitmon pr
 If you set the `MONDAY_STATUS_COLUMN_ID` environment variable, it will change the status of the corresponding Monday item to "In Review" to let your team know that the task is ready for review by other developers.
 
 TODO: add a command line option to tag a reviewer and potentially update a column and/or create a new item for that reviewer in Monday
-
-# Installation
-
-`npm install -g git-monday-cli`
 
 # Setup
 
