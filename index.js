@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // index.js
+
 const { exec } = require('child_process');
 const { MONDAY_TOKEN, MONDAY_BOARD_ID } = require('./config');
 const args = require('minimist')(process.argv.slice(2));
@@ -11,6 +12,36 @@ const {
 const mondaySdk = require('monday-sdk-js');
 const monday = mondaySdk();
 
+const argv = require('yargs')
+  .version()
+  .usage('Usage: gitmon <command> [options]')
+  .command(
+    ['start [itemId] [branchTag]', 's'],
+    'Create a new git branch from a Monday Item'
+  )
+  .example(
+    'gitmon start 12345678',
+    'Create a new git branch called "feature/12345678" and change the status of the corresponding Monday task with Id 12345678 to "Working on it".'
+  )
+  .example(
+    'gitmon start 12345678 "modal component"',
+    'Create a new git branch called "feature/12345678-modal_component" and change the status of the corresponding Monday task with Id 12345678 to "Working on it".'
+  )
+  .example(
+    'gitmon pr',
+    'Push the current git branch to the remote github repository and create a pull request with the title of the corresponding Monday item and a body with the Monday Item Id. This will create a linkage in the Github PR column of the Monday board.'
+  )
+  .command(
+    ['pr'],
+    'Push the current branch to the remote repository and create a pull request.'
+  )
+  .demandCommand(1, 'You need at least one command before moving on')
+  .help('h')
+  .alias('h', 'help')
+  .epilogue(
+    'for more information, find the documentation at https://github.com/zrachlin/git-monday-cli#readme'
+  ).argv;
+
 if (!MONDAY_TOKEN) {
   console.error('You must provide a valid MONDAY_TOKEN in your .env file.');
   return;
@@ -18,7 +49,7 @@ if (!MONDAY_TOKEN) {
 
 monday.setToken(process.env.MONDAY_TOKEN);
 
-if (!Object.keys(args).length) {
+if (!Object.keys(args).length || !args['_'].length) {
   console.log(
     'Welcome to git-monday-cli. Pass -h as an argument to view available commands'
   );
@@ -28,14 +59,15 @@ if (args['h']) {
   const helpMessage = `Welcome to git-monday-cli. Here are a list of commands:\n
   start  Creates a new git branch given
   -h  Help
+  start -
   `;
-  console.log('you want help');
+  console.log(helpMessage);
 }
 
 // Anonymous arguments
 const aArgs = args['_'];
 
-if (aArgs[0].toLowerCase() === 'start') {
+if (aArgs.length && args[0].toLowerCase() === 'start') {
   if (typeof aArgs[1] !== 'number') {
     console.error(
       'The first argument or the -i argument must be a valid Monday Item Id'
@@ -45,7 +77,7 @@ if (aArgs[0].toLowerCase() === 'start') {
   return;
 }
 
-if (aArgs[0].toLowerCase() === 'pr') {
+if (aArgs.length && aArgs[0].toLowerCase() === 'pr') {
   pr();
   return;
 }
