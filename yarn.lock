@@ -4,7 +4,7 @@
 
 "@types/source-map@^0.5.2":
   version "0.5.7"
-  resolved "https://registry.npmjs.org/@types/source-map/-/source-map-0.5.7.tgz"
+  resolved "https://registry.yarnpkg.com/@types/source-map/-/source-map-0.5.7.tgz#165eeb583c1ef00196fe4ef4da5d7832b03b275b"
   integrity sha512-LrnsgZIfJaysFkv9rRJp4/uAyqw87oVed3s1hhF83nwbo9c7MG9g5DqR0seHP+lkX4ldmMrVolPjQSe2ZfD0yA==
   dependencies:
     source-map "*"
@@ -23,7 +23,7 @@ ansi-styles@^4.0.0:
 
 child-process@^1.0.2:
   version "1.0.2"
-  resolved "https://registry.yarnpkg.com/child-process/-/child-process-1.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/child-process/-/child-process-1.0.2.tgz#98974dc7ed1ee4c6229f8e305fa7313a6885a7f2"
   integrity sha1-mJdNx+0e5MYin44wX6cxOmiFp/I=
 
 cliui@^7.0.2:
@@ -49,7 +49,7 @@ color-name@~1.1.4:
 
 dotenv@^8.2.0:
   version "8.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 emoji-regex@^8.0.0:
@@ -72,14 +72,9 @@ is-fullwidth-code-point@^3.0.0:
   resolved "https://registry.yarnpkg.com/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz#f116f8064fe90b3f7844a38997c0b75051269f1d"
   integrity sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==
 
-minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
-
 monday-sdk-js@^0.1.2:
   version "0.1.2"
-  resolved "https://registry.npmjs.org/monday-sdk-js/-/monday-sdk-js-0.1.2.tgz"
+  resolved "https://registry.yarnpkg.com/monday-sdk-js/-/monday-sdk-js-0.1.2.tgz#0226861f5335adb684bef18fd5aad397514916d6"
   integrity sha512-1HYnJaZbE+azLS1wrU9vBr3EuQpModVTGmdJ/TRzRZ5B7yam6DH3eTSbqgUc2sECngQ6FMGPWwV4FiCdOGgk9g==
   dependencies:
     "@types/source-map" "^0.5.2"
@@ -87,7 +82,7 @@ monday-sdk-js@^0.1.2:
 
 node-fetch@^2.6.0:
   version "2.6.1"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.1.tgz"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 require-directory@^2.1.1:
@@ -97,7 +92,7 @@ require-directory@^2.1.1:
 
 source-map@*:
   version "0.7.3"
-  resolved "https://registry.npmjs.org/source-map/-/source-map-0.7.3.tgz"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
   integrity sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==
 
 string-width@^4.1.0, string-width@^4.2.0:

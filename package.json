@@ -1,7 +1,6 @@
 {
   "name": "git-monday-cli",
-  "scope": "hi",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "bin": {
     "gitmon": "index.js"
   },
@@ -16,11 +15,9 @@
   "dependencies": {
     "child-process": "^1.0.2",
     "dotenv": "^8.2.0",
-    "minimist": "^1.2.5",
     "monday-sdk-js": "^0.1.2",
     "yargs": "^16.2.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zrachlin/git-monday-cli.git"
