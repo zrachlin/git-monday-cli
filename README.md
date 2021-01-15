@@ -38,7 +38,7 @@ If you set the `MONDAY_STATUS_COLUMN_ID` environment variable, it will change th
 gitmon pr
 ```
 
-`gitmon pr` will automatically push the current local branch to the remote origin and create a pull-request in Github. The pull-request's title will be the name of the Monday item, and the body will be "Monday ID: `#{Monday Item Id}`". If you have enabled the [Recommended Monday Integration](#recommended-monday-integrations), this will create a link betwen the Monday item and the Github PR.
+`gitmon pr` will automatically push the current local branch to the remote origin and create a pull-request in Github. The pull-request's title will be the name of the Monday item, and the body will be "Monday ID: `#{Monday Item Id}`". If you have enabled the [Recommended Monday Integration](#recommended-monday-integration), this will create a link betwen the Monday item and the Github PR.
 
 If you set the `MONDAY_STATUS_COLUMN_ID` environment variable, it will change the status of the corresponding Monday item to "In Review" to let your team know that the task is ready for review by other developers.
 
