@@ -8,7 +8,7 @@ const {
   MONDAY_STATUS_COLUMN_ID,
   MONDAY_ITEM_TYPE_COLUMN_ID,
 } = require('./config');
-const args = require('minimist')(process.argv.slice(2));
+
 const {
   changeStatusString,
   getItemInfoString,
@@ -21,8 +21,15 @@ const argv = require('yargs')
   .version()
   .usage('Usage: gitmon <command> [options]')
   .command(
-    ['start [itemId] [branchTag]', 's'],
-    'Create a new git branch from a Monday Item'
+    ['start <itemId> [branchTag]', 's'],
+    'Create a new git branch from a Monday Item',
+    function (yargs) {
+      return yargs
+        .positional('itemId', {
+          type: 'number',
+        })
+        .positional('branchTag', { type: 'string' });
+    }
   )
   .example(
     'gitmon start 12345678',
@@ -54,35 +61,21 @@ if (!MONDAY_TOKEN) {
 
 monday.setToken(process.env.MONDAY_TOKEN);
 
-if (!Object.keys(args).length || !args['_'].length) {
-  console.log(
-    'Welcome to git-monday-cli. Pass -h as an argument to view available commands'
-  );
-}
-
-if (args['h']) {
-  const helpMessage = `Welcome to git-monday-cli. Here are a list of commands:\n
-  start  Creates a new git branch given
-  -h  Help
-  start -
-  `;
-  console.log(helpMessage);
-}
-
 // Anonymous arguments
-const aArgs = args['_'];
+const aArgs = argv._;
 
-if (aArgs.length && args[0].toLowerCase() === 'start') {
-  if (typeof aArgs[1] !== 'number') {
+if (aArgs[0] === 'start') {
+  if (isNaN(argv.itemId)) {
     console.error(
-      'The first argument or the -i argument must be a valid Monday Item Id'
+      'The first argument to gitmon start must be a valid Monday Item Id'
     );
+    return;
   }
-  start(aArgs[1], aArgs[2]);
+  start(argv.itemId, argv.branchTag);
   return;
 }
 
-if (aArgs.length && aArgs[0].toLowerCase() === 'pr') {
+if (aArgs[0] === 'pr') {
   pr();
   return;
 }
@@ -91,10 +84,15 @@ async function start(itemId, branchTag) {
   const itemInfoString = getItemInfoString(itemId);
   const { data } = await monday.api(itemInfoString);
   const { column_values } = data.items[0];
-  const tagColumn = column_values.find(el => el.id === MONDAY_STATUS_COLUMN_ID);
   let tagId;
-  if (tagColumn.value) {
-    tagId = JSON.parse(tagColumn.value).tag_ids[0];
+  if (MONDAY_ITEM_TYPE_COLUMN_ID) {
+    const tagColumn = column_values.find(
+      el => el.id === MONDAY_ITEM_TYPE_COLUMN_ID
+    );
+
+    if (tagColumn && tagColumn.value) {
+      tagId = JSON.parse(tagColumn.value).tag_ids[0];
+    }
   }
   let tagName = 'feature';
   if (tagId) {
@@ -137,7 +135,15 @@ async function pr() {
     } else {
       // the *entire* stdout and stderr (buffered)
       const branch = stdout;
-      const itemId = branch.split('/')[1].split('-')[0];
+      let itemId;
+      try {
+        itemId = branch.split('/')[1].split('-')[0];
+      } catch {
+        throw new Error(
+          'Your branch name was not recognized as valid. Please make sure you use the gitmon start command to create your branch.'
+        );
+      }
+
       const itemInfoString = getItemInfoString(itemId);
       const { data } = await monday.api(itemInfoString);
       const { name } = data.items[0];
