@@ -8,6 +8,8 @@ This package provides a CLI with two commands that aid in development workflow u
 
 `npm install -g git-monday-cli`
 
+# Usage
+
 ### _Gitmon Start_
 
 ```
