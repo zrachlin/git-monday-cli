@@ -19,15 +19,17 @@ const getItemInfoString = itemId => {
     }`;
 };
 
-const getTagName = tagId => {
+const getTagNames = () => {
   return `query {
-    tags (ids: ${tagId}) {
-    name
+    tags {
+      name
+      id
     }
-    }`;
+
+}`;
 };
 module.exports = {
   changeStatusString,
   getItemInfoString,
-  getTagName,
+  getTagNames,
 };

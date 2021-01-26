@@ -12,7 +12,7 @@ const {
 const {
   changeStatusString,
   getItemInfoString,
-  getTagName,
+  getTagNames,
 } = require('./monday');
 const mondaySdk = require('monday-sdk-js');
 const monday = mondaySdk();
@@ -82,23 +82,30 @@ if (aArgs[0] === 'pr') {
 
 async function start(itemId, branchTag) {
   const itemInfoString = getItemInfoString(itemId);
-  const { data } = await monday.api(itemInfoString);
-  const { column_values } = data.items[0];
   let tagId;
-  if (MONDAY_ITEM_TYPE_COLUMN_ID) {
-    const tagColumn = column_values.find(
-      el => el.id === MONDAY_ITEM_TYPE_COLUMN_ID
-    );
-
-    if (tagColumn && tagColumn.value) {
-      tagId = JSON.parse(tagColumn.value).tag_ids[0];
+  try {
+    const { data } = await monday.api(itemInfoString);
+    const { column_values } = data.items[0];
+    console.log(column_values);
+    if (MONDAY_ITEM_TYPE_COLUMN_ID) {
+      const tagColumn = column_values.find(
+        el => el.id === MONDAY_ITEM_TYPE_COLUMN_ID
+      );
+      if (tagColumn && tagColumn.value) {
+        tagId = JSON.parse(tagColumn.value).tag_ids[0];
+      }
     }
+  } catch (err) {
+    throw new Error(err);
   }
   let tagName = 'feature';
   if (tagId) {
-    const tagsString = getTagName(tagId);
+    const tagsString = getTagNames();
     const { data: data2 } = await monday.api(tagsString);
-    tagName = data2.tags[0].name;
+    const res = data2.tags.find(el => el.id === tagId);
+    if (res) {
+      tagName = res.name;
+    }
   }
 
   let branchName = `${tagName}/${itemId}`;
@@ -123,7 +130,11 @@ async function start(itemId, branchTag) {
       MONDAY_STATUS_COLUMN_ID,
       'Working on it'
     );
-    const res = await monday.api(mondayString);
+    try {
+      const res = await monday.api(mondayString);
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
 
@@ -143,33 +154,36 @@ async function pr() {
           'Your branch name was not recognized as valid. Please make sure you use the gitmon start command to create your branch.'
         );
       }
-
-      const itemInfoString = getItemInfoString(itemId);
-      const { data } = await monday.api(itemInfoString);
-      const { name } = data.items[0];
-      exec(`git push origin ${branch}`, (err, stdout, stderr) => {
-        if (err) {
-          //some err occurred
-          console.error(err);
-        } else {
-          // the *entire* stdout and stderr (buffered)
-          console.log(stdout);
-          // console.log(`stderr: ${stderr}`);
-          exec(
-            `gh pr create --title "${name}" --body "Monday ID: #${itemId}"`,
-            (err, stdout, stderr) => {
-              if (err) {
-                //some err occurred
-                console.error(err);
-              } else {
-                // the *entire* stdout and stderr (buffered)
-                console.log(stdout);
-                // console.log(`stderr: ${stderr}`);
+      try {
+        const itemInfoString = getItemInfoString(itemId);
+        const { data } = await monday.api(itemInfoString);
+        const { name } = data.items[0];
+        exec(`git push origin ${branch}`, (err, stdout, stderr) => {
+          if (err) {
+            //some err occurred
+            console.error(err);
+          } else {
+            // the *entire* stdout and stderr (buffered)
+            console.log(stdout);
+            // console.log(`stderr: ${stderr}`);
+            exec(
+              `gh pr create --title "${name}" --body "Monday ID: #${itemId}"`,
+              (err, stdout, stderr) => {
+                if (err) {
+                  //some err occurred
+                  console.error(err);
+                } else {
+                  // the *entire* stdout and stderr (buffered)
+                  console.log(stdout);
+                  // console.log(`stderr: ${stderr}`);
+                }
               }
-            }
-          );
-        }
-      });
+            );
+          }
+        });
+      } catch (err) {
+        throw new Error(err);
+      }
       if (MONDAY_STATUS_COLUMN_ID) {
         const status_string = changeStatusString(
           MONDAY_BOARD_ID,
@@ -177,7 +191,11 @@ async function pr() {
           MONDAY_STATUS_COLUMN_ID,
           'In Review'
         );
-        const res = await monday.api(status_string);
+        try {
+          const res = await monday.api(status_string);
+        } catch (err) {
+          throw new Error(err);
+        }
       }
     }
   });

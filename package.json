@@ -1,6 +1,6 @@
 {
   "name": "git-monday-cli",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "bin": {
     "gitmon": "index.js"
   },
