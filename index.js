@@ -86,7 +86,6 @@ async function start(itemId, branchTag) {
   try {
     const { data } = await monday.api(itemInfoString);
     const { column_values } = data.items[0];
-    console.log(column_values);
     if (MONDAY_ITEM_TYPE_COLUMN_ID) {
       const tagColumn = column_values.find(
         el => el.id === MONDAY_ITEM_TYPE_COLUMN_ID
